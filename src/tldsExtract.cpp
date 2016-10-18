@@ -32,10 +32,10 @@ TldsExtract::~TldsExtract()
 
 host TldsExtract::extract(std::string hostname) const
 {
-    host host; // host data structure to return
-    host.hostname = hostname;
+	host host; // host data structure to return
+	host.hostname = hostname;
 
-    // will be used to split hostname in hostpart vector
+	// will be used to split hostname in hostpart vector
 	std::vector<std::string> hostpart;
 	hostpart.push_back(""); // create first string
 	size_t stringIndex = 0; // first string index
@@ -74,47 +74,47 @@ host TldsExtract::extract(std::string hostname) const
 				searchString = hostpart[2] + '.' + hostpart[1] + '.' + hostpart[0]; // => act.edu.au
 				if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
 				{
-                    host.organisation = hostpart[3]; // exemple
-                    host.suffix = searchString; // act.edu.au
-                	host.tld = hostpart[0]; // au
-                    return host;
+					host.organisation = hostpart[3]; // exemple
+					host.suffix = searchString; // act.edu.au
+					host.tld = hostpart[0]; // au
+					return host;
 				}
 				/* no break */
 		case 2 :
 				searchString = hostpart[1] + '.' + hostpart[0]; // => edu.au
 				if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
 				{
-                    host.organisation = hostpart[2]; // exemple
-                    host.suffix = searchString; // edu.au
-                	host.tld = hostpart[0]; // au
-                    return host;
+					host.organisation = hostpart[2]; // exemple
+					host.suffix = searchString; // edu.au
+					host.tld = hostpart[0]; // au
+					return host;
 				}
 				/* no break */
 		case 1 :
 				searchString = hostpart[0]; // => au
 				if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
 				{
-                    host.organisation = hostpart[1]; // exemple
-                    host.suffix = searchString; // au
-                	host.tld = hostpart[0]; // au
-                    return host;
+					host.organisation = hostpart[1]; // exemple
+					host.suffix = searchString; // au
+					host.tld = hostpart[0]; // au
+					return host;
 				}
 	}
-    // RFC2606, reserved names for a local usage
-    // concidered as a TLD if a subdomain exists (myapp.localhost))
-    if (hostpart.size() > 1)
-    {
-        if (find(rfc2606.begin(), rfc2606.end(), hostpart[0]) != rfc2606.end())
-        {
-            host.organisation = hostpart[1]; // myapp
-            host.suffix = hostpart[0]; // localhost
-        	host.tld = hostpart[0]; // localhost
-            return host;
-        }
+	// RFC2606, reserved names for a local usage
+	// concidered as a TLD if a subdomain exists (myapp.localhost))
+	if (hostpart.size() > 1)
+	{
+		if (find(rfc2606.begin(), rfc2606.end(), hostpart[0]) != rfc2606.end())
+		{
+			host.organisation = hostpart[1]; // myapp
+			host.suffix = hostpart[0]; // localhost
+			host.tld = hostpart[0]; // localhost
+			return host;
+		}
 	}
 
 	// nothing found, only the received host.hostname is to return
-    return host;
+	return host;
 }
 
 void  TldsExtract::loadTlds_()

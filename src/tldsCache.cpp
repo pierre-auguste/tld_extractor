@@ -66,7 +66,7 @@ std::vector<std::string>& TldsCache::save_(std::vector<std::string>& tlds) const
 
 std::vector<std::string>& TldsCache::clean_(std::stringstream readBuffer)
 {
-    char countTL; // counting '.' for MAX_TLDS_DEPTH
+	char countTL; // counting '.' for MAX_TLDS_DEPTH
 	std::string line;
 	while (getline(readBuffer, line))
 	{
@@ -90,10 +90,10 @@ static size_t CurlToStringstreamWriterCallback(char *contents, size_t size, size
 											   void *readBuffer)
 {
 	size_t realsize = size * nmemb;
-    // TODO find a way to clean the TLDs list here
-    // ==> problem: we have to wait for a "\n" to get a full TLD (because of tcp buffer size)
-    ((std::stringstream*)readBuffer)->write((char *)contents , realsize);
-    return realsize;
+	// TODO find a way to clean the TLDs list here
+	// ==> problem: we have to wait for a "\n" to get a full TLD (because of tcp buffer size)
+	((std::stringstream*)readBuffer)->write((char *)contents , realsize);
+	return realsize;
 }
 
 std::stringstream TldsCache::download_() const

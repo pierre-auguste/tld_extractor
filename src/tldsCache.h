@@ -1,15 +1,15 @@
 /**
- *	TLDs Cache Service [-std=c++11 -lcurl]
+ *  TLDs Cache Service [-std=c++11 -lcurl]
  *
- *	Return cached TLDs list from publicsuffix.org
+ *  Return cached TLDs list from publicsuffix.org
  *  Curl library is used to download public suffixes
  *  ans create cache.
  *
  *  Thrown exceptions list (int) :
- *	444. Tlds file is empty or corrupt
- *	644. Tlds file is not writable
- *	400. Curl init failed.
- *	404. TLDS were not downloaded (check connexion).
+ *   444. Tlds file is empty or corrupt
+ *   644. Tlds file is not writable
+ *   400. Curl init failed.
+ *   404. TLDS were not downloaded (check connexion).
  */
 #ifndef TLDSCACHE_H_INCLUDED
 #define TLDSCACHE_H_INCLUDED
@@ -28,12 +28,12 @@ class TldsCache
 public:
 
 	// will fill the vector with cached TLDs strings
-    TldsCache(std::vector<std::string>& tlds, bool verbose=false);
+	TldsCache(std::vector<std::string>& tlds, bool verbose=false);
 
-    // static method to delete cache file content
-    static bool deleteCache();
+	// static method to delete cache file content
+	static bool deleteCache();
 
-    // max depth to search in TLDs list
+	// max depth to search in TLDs list
 	static constexpr const unsigned char MAX_TLDS_DEPTH = 3;
 	// cache file name
 	static constexpr const char* TLDS_FILE = "suffixes.txt";

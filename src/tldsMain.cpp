@@ -84,8 +84,8 @@ int main(int argc, char *argv[])
         std::string arg = argv[i];
         if ((arg == "-h") || (arg == "--help"))
         {
-            show_usage(argv[0]);
-            return EXIT_SUCCESS;
+			show_usage(argv[0]);
+			return EXIT_SUCCESS;
         }
         else if ((arg == "-u") || (arg == "--update"))
         {
@@ -123,21 +123,21 @@ int main(int argc, char *argv[])
         {
         	searches.push_back(country);
     	}
-        // For these options we need an URL
-        if ((arg == "-f") || (arg == "--hostname")
-         || (arg == "-o") || (arg == "--organisation")
+		// For these options we need an URL
+		if ((arg == "-f") || (arg == "--hostname")
+		 || (arg == "-o") || (arg == "--organisation")
 		 || (arg == "-s") || (arg == "--suffix")
 		 || (arg == "-p") || (arg == "--subdomain")
 		 || (arg == "-d") || (arg == "--domain")
-         || (arg == "-t") || (arg == "--tld")
+		 || (arg == "-t") || (arg == "--tld")
 		 || (arg == "-c") || (arg == "--country"))
-        {
-            if (i + 1 >= argc) // has argc enough arguments
-            {
-                std::cerr << "this option requires an [URL]." << std::endl;
-                return EXIT_FAILURE;
-            }
-        }
+		{
+			if (i + 1 >= argc) // has argc enough arguments
+			{
+				std::cerr << "this option requires an [URL]." << std::endl;
+				return EXIT_FAILURE;
+			}
+		}
     }
 
     if (deleteCache)
