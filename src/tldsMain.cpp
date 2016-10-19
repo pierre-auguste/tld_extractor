@@ -138,29 +138,29 @@ int main(int argc, char *argv[])
 				return EXIT_FAILURE;
 			}
 		}
-    }
+	}
 
-    if (deleteCache)
-    {
-    	TldsCache::deleteCache();
-    	if (argc == 2)
-    		return EXIT_SUCCESS;
-    }
+	if (deleteCache)
+	{
+		TldsCache::deleteCache();
+		if (argc == 2)
+			return EXIT_SUCCESS;
+	}
 
-    if (interactiveMode)
-    {
-    	return interactive();
-    }
+	if (interactiveMode)
+	{
+		return interactive();
+	}
 
-    if (searches.size() > 0)
-    {
-    	std::string url = argv[argc-1];
-    	if (url.at(0) != '-') // is url a badly set option ? (ex. "-d -u")
-            return extract(searches, url);
-    }
+	if (searches.size() > 0)
+	{
+		std::string url = argv[argc-1];
+		if (url.at(0) != '-') // is url a badly set option ? (ex. "-d -u")
+			return extract(searches, url);
+	}
 
-    show_usage(argv[0]);
-    return EXIT_FAILURE;
+	show_usage(argv[0]);
+	return EXIT_FAILURE;
 }
 
 std::string getHostnameFromUrl(std::string& url)
@@ -231,32 +231,32 @@ bool extract(std::vector<search> searches, std::string url)
 
 bool interactive()
 {
-    std::string url; // user url
-    host host; // returned structured host
+	std::string url; // user url
+	host host; // returned structured host
 
-    while(true)
-    {
-        std::cout << "Please, enter a url (or \"bye\" to exit) :" << std::endl;
-        std::cin >> url;
+	while(true)
+	{
+		std::cout << "Please, enter a url (or \"bye\" to exit) :" << std::endl;
+		std::cin >> url;
 
-        if (url == "bye")
-        {
-            if (not host.hostname.empty()) // a tld instance was previously launched
-                TldsExtract::instance(true)->close(); // clean close of TLD services
-            std::cout << "Bye bye, have fun !" << std::endl;
-            return EXIT_SUCCESS;
-        }
+		if (url == "bye")
+		{
+			if (not host.hostname.empty()) // a tld instance was previously launched
+				TldsExtract::instance(true)->close(); // clean close of TLD services
+			std::cout << "Bye bye, have fun !" << std::endl;
+			return EXIT_SUCCESS;
+		}
 
-        host = TldsExtract::instance(true)->extract(getHostnameFromUrl(url));
+		host = TldsExtract::instance(true)->extract(getHostnameFromUrl(url));
 
-        std::cout << "----------------------------------------------------" << std::endl;
-        std::cout << "Hostname:     " << host.hostname << std::endl;
-        std::cout << "Organisation: " << host.organisation << std::endl;
-        std::cout << "Suffix:       " << host.suffix << std::endl;
-        std::cout << "Subdomain:    " << host.subdomain() << std::endl;
-        std::cout << "Domain:       " << host.domain() << std::endl;
-        std::cout << "TLD:          " << host.tld << std::endl;
-        std::cout << "Country:      " << host.country() << std::endl;
-        std::cout << "----------------------------------------------------" << std::endl;
-    }
+		std::cout << "----------------------------------------------------" << std::endl;
+		std::cout << "Hostname:     " << host.hostname << std::endl;
+		std::cout << "Organisation: " << host.organisation << std::endl;
+		std::cout << "Suffix:       " << host.suffix << std::endl;
+		std::cout << "Subdomain:    " << host.subdomain() << std::endl;
+		std::cout << "Domain:       " << host.domain() << std::endl;
+		std::cout << "TLD:          " << host.tld << std::endl;
+		std::cout << "Country:      " << host.country() << std::endl;
+		std::cout << "----------------------------------------------------" << std::endl;
+	}
 }
