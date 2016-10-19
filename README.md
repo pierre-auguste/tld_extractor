@@ -7,7 +7,7 @@ Use curl library to download public suffix
 
 # Note :
 
-If multiple data are to be returned, a slash will be used to separate them.
+If multiple data are to be returned, a slash will be used to separate items.
 
 Maximum depth of suffixes search was fixed to three.
 Exemple: *.act.edu.au

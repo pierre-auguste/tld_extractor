@@ -35,7 +35,7 @@ static void show_usage(std::string name)
 	<< std::endl
 	<< "Note :" << std::endl
 	<< "   If multiple data are to be returned, a slash will be used to" << std::endl
-	<< "   separate them." << std::endl
+	<< "   separate items." << std::endl
 	<<     std::endl
 	<< "   Maximum depth of suffixes search was fixed to three." << std::endl
 	<< "   Exemple: *.act.edu.au" << std::endl
