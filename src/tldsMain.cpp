@@ -81,56 +81,56 @@ int main(int argc, char *argv[])
 
     for (int i = 1; i < argc; ++i)
     {
-        std::string arg = argv[i];
-        if ((arg == "-h") || (arg == "--help"))
-        {
+		std::string arg = argv[i];
+		if ((arg == "-h") || (arg == "--help"))
+		{
 			show_usage(argv[0]);
 			return EXIT_SUCCESS;
-        }
-        else if ((arg == "-u") || (arg == "--update"))
-        {
-        	deleteCache = true;
-    	}
-        else if ((arg == "-i") || (arg == "--interactive"))
-        {
-        	interactiveMode = true;
-    	}
-        else if ((arg == "-f") || (arg == "--hostname"))
-        {
-        	searches.push_back(hostname);
-    	}
-        else if ((arg == "-o") || (arg == "--organisation"))
-        {
-        	searches.push_back(organisation);
-    	}
-        else if ((arg == "-s") || (arg == "--suffix"))
-        {
-        	searches.push_back(suffix);
-    	}
-        else if ((arg == "-p") || (arg == "--subdomain"))
-        {
-        	searches.push_back(subdomain);
-    	}
-        else if ((arg == "-d") || (arg == "--domain"))
-        {
-        	searches.push_back(domain);
-    	}
-        else if ((arg == "-t") || (arg == "--tld"))
-        {
-        	searches.push_back(tld);
-    	}
-        else if ((arg == "-c") || (arg == "--country"))
-        {
-        	searches.push_back(country);
-    	}
+		}
+		else if ((arg == "-u") || (arg == "--update"))
+		{
+			deleteCache = true;
+		}
+		else if ((arg == "-i") || (arg == "--interactive"))
+		{
+			interactiveMode = true;
+		}
+		else if ((arg == "-f") || (arg == "--hostname"))
+		{
+			searches.push_back(hostname);
+		}
+		else if ((arg == "-o") || (arg == "--organisation"))
+		{
+			searches.push_back(organisation);
+		}
+		else if ((arg == "-s") || (arg == "--suffix"))
+		{
+			searches.push_back(suffix);
+		}
+		else if ((arg == "-p") || (arg == "--subdomain"))
+		{
+			searches.push_back(subdomain);
+		}
+		else if ((arg == "-d") || (arg == "--domain"))
+		{
+			searches.push_back(domain);
+		}
+		else if ((arg == "-t") || (arg == "--tld"))
+		{
+			searches.push_back(tld);
+		}
+		else if ((arg == "-c") || (arg == "--country"))
+		{
+			searches.push_back(country);
+		}
 		// For these options we need an URL
 		if ((arg == "-f") || (arg == "--hostname")
-		 || (arg == "-o") || (arg == "--organisation")
-		 || (arg == "-s") || (arg == "--suffix")
-		 || (arg == "-p") || (arg == "--subdomain")
-		 || (arg == "-d") || (arg == "--domain")
-		 || (arg == "-t") || (arg == "--tld")
-		 || (arg == "-c") || (arg == "--country"))
+		||  (arg == "-o") || (arg == "--organisation")
+		||  (arg == "-s") || (arg == "--suffix")
+		||  (arg == "-p") || (arg == "--subdomain")
+		||  (arg == "-d") || (arg == "--domain")
+		||  (arg == "-t") || (arg == "--tld")
+		||  (arg == "-c") || (arg == "--country"))
 		{
 			if (i + 1 >= argc) // has argc enough arguments
 			{
