@@ -3,7 +3,7 @@
 A simple C++ application to extract suffixes and organisation from an URL. 
 Read https://publicsuffix.org/learn/ if you want to improve your knowledge about TLD and suffixes.
 
-This application use curl library to download public suffix in a cache file.
+This application use curl library to download public suffixes in a cache file.
 
 ## Note :
 
