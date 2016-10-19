@@ -23,13 +23,15 @@ Reserved names are: test, example, invalid, localhost.
 
 Delete cache:
 
-$ ./tldExtractor -u
+ $ ./tldExtractor -u
 
 Delete cache and enter interactive mode:
 
-$ ./tldExtractor -u -i
+ $ ./tldExtractor -u -i
 
 Get all informations about www.exemple.co.uk:
 
-$ ./tldExtractor -f -o -s -p -d -t -c http://www.exemple.co.uk/index.html
+ $ ./tldExtractor -f -o -s -p -d -t -c http://www.exemple.co.uk/index.html
+
+ Result : www.exemple.co.uk/exemple/co.uk/www/exemple.co.uk/uk/uk
 
