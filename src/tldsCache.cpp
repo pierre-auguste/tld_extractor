@@ -51,6 +51,7 @@ std::vector<std::string>& TldsCache::load_()
 
 	return tlds; // for programmatic logic
 }
+
 std::vector<std::string>& TldsCache::save_(std::vector<std::string>& tlds) const
 {
 	// testing file

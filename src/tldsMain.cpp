@@ -203,27 +203,27 @@ bool extract(std::vector<search> searches, std::string url)
 
 		switch (type)
 		{
-			case hostname :
-				std::cout << h.hostname;
-				break;
-			case organisation :
-				std::cout << h.organisation;
-				break;
-			case suffix :
-				std::cout << h.suffix;
-				break;
-			case subdomain :
-				std::cout << h.subdomain();
-				break;
-			case domain :
-				std::cout << h.domain();
-				break;
-			case tld :
-				std::cout << h.tld;
-				break;
-			case country :
-				std::cout << h.country();
-				break;
+		case hostname :
+			std::cout << h.hostname;
+			break;
+		case organisation :
+			std::cout << h.organisation;
+			break;
+		case suffix :
+			std::cout << h.suffix;
+			break;
+		case subdomain :
+			std::cout << h.subdomain();
+			break;
+		case domain :
+			std::cout << h.domain();
+			break;
+		case tld :
+			std::cout << h.tld;
+			break;
+		case country :
+			std::cout << h.country();
+			break;
 		}
 	}
 	std::cout << std::endl;
