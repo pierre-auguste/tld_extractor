@@ -131,18 +131,18 @@ void  TldsExtract::loadTlds_()
 		{
 			switch (e)
 			{
-				case 644:
-					std::cerr << "TLDs cache file is not writable." << std::endl;
-					break;
-				case 444:
-					std::cerr << "Suffixes were not loaded, cache file may be corrupt." << std::endl;
-					break;
-				case 400:
-					std::cerr << "Curl initialisation failed." << std::endl;
-					break;
-				case 404:
-					std::cerr << "Curl connexion to publicsuffix.org failed." << std::endl;
-					break;
+			case 644:
+				std::cerr << "TLDs cache file is not writable." << std::endl;
+				break;
+			case 444:
+				std::cerr << "Suffixes were not loaded, cache file may be corrupt." << std::endl;
+				break;
+			case 400:
+				std::cerr << "Curl initialisation failed." << std::endl;
+				break;
+			case 404:
+				std::cerr << "Curl connexion to publicsuffix.org failed." << std::endl;
+				break;
 			}
 		}
 	// we continue using RFC2606 (localhost tests)
