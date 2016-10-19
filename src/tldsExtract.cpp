@@ -70,35 +70,35 @@ host TldsExtract::extract(std::string hostname) const
 	int depth = (hostdepth > TldsCache::MAX_TLDS_DEPTH) ? TldsCache::MAX_TLDS_DEPTH : hostdepth -1;
 	switch (depth)
 	{
-		case 3 :
-				searchString = hostpart[2] + '.' + hostpart[1] + '.' + hostpart[0]; // => act.edu.au
-				if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
-				{
-					host.organisation = hostpart[3]; // exemple
-					host.suffix = searchString; // act.edu.au
-					host.tld = hostpart[0]; // au
-					return host;
-				}
-				/* no break */
-		case 2 :
-				searchString = hostpart[1] + '.' + hostpart[0]; // => edu.au
-				if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
-				{
-					host.organisation = hostpart[2]; // exemple
-					host.suffix = searchString; // edu.au
-					host.tld = hostpart[0]; // au
-					return host;
-				}
-				/* no break */
-		case 1 :
-				searchString = hostpart[0]; // => au
-				if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
-				{
-					host.organisation = hostpart[1]; // exemple
-					host.suffix = searchString; // au
-					host.tld = hostpart[0]; // au
-					return host;
-				}
+	case 3 :
+		searchString = hostpart[2] + '.' + hostpart[1] + '.' + hostpart[0]; // => act.edu.au
+		if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
+		{
+			host.organisation = hostpart[3]; // exemple
+			host.suffix = searchString; // act.edu.au
+			host.tld = hostpart[0]; // au
+			return host;
+		}
+		/* no break */
+	case 2 :
+		searchString = hostpart[1] + '.' + hostpart[0]; // => edu.au
+		if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
+		{
+			host.organisation = hostpart[2]; // exemple
+			host.suffix = searchString; // edu.au
+			host.tld = hostpart[0]; // au
+			return host;
+		}
+		/* no break */
+	case 1 :
+		searchString = hostpart[0]; // => au
+		if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
+		{
+			host.organisation = hostpart[1]; // exemple
+			host.suffix = searchString; // au
+			host.tld = hostpart[0]; // au
+			return host;
+		}
 	}
 	// RFC2606, reserved names for a local usage
 	// concidered as a TLD if a subdomain exists (myapp.localhost))
