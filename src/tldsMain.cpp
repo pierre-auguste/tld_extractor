@@ -69,18 +69,18 @@ bool extract(std::vector<search> searches, std::string url);
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2) // We need minimum program name and one argument
-    {
-        show_usage(argv[0]);
-        return EXIT_FAILURE;
-    }
+	if (argc < 2) // We need minimum program name and one argument
+	{
+		show_usage(argv[0]);
+		return EXIT_FAILURE;
+	}
 
-    bool deleteCache = false; // if true will delete cache
-    bool interactiveMode = false; // if true will turn application to interactiv mod
-    std::vector<search> searches; // search type  (-f, -o, -s, ...)
+	bool deleteCache = false; // if true will delete cache
+	bool interactiveMode = false; // if true will turn application to interactiv mod
+	std::vector<search> searches; // search type  (-f, -o, -s, ...)
 
-    for (int i = 1; i < argc; ++i)
-    {
+	for (int i = 1; i < argc; ++i)
+	{
 		std::string arg = argv[i];
 		if ((arg == "-h") || (arg == "--help"))
 		{
