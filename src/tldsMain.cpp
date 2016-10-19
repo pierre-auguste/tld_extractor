@@ -50,9 +50,9 @@ static void show_usage(std::string name)
 	<< "Exemples of usage:" << std::endl
 	<< "   Delete cache:" << std::endl
 	<< "    $ " << name << " -u" << std::endl
-	<< "   Delete cache and enter interactive mode" << std::endl
+	<< "   Delete cache and enter interactive mode:" << std::endl
 	<< "    $ " << name << " -u -i" << std::endl
-	<< "   Get all informations about www.exemple.co.uk" << std::endl
+	<< "   Get all informations about www.exemple.co.uk:" << std::endl
 	<< "    $ " << name << " -f -o -s -p -d -t -c http://www.exemple.co.uk/index.html" << std::endl
 	<< std::endl;
 }

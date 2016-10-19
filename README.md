@@ -5,7 +5,7 @@ Read https://publicsuffix.org/learn/ if you want to improve your knowledge about
 
 Use curl library to download public suffix
 
-# Note :
+## Note :
 
 If multiple data are to be returned, a slash will be used to separate items.
 
@@ -14,18 +14,24 @@ Exemple: *.act.edu.au
 
 A cache file named "suffixes.txt" and containing suffixes is created on your local system.
 
-RFC2606: Reserved names are returned as a TLD if a subdomain exists.
-Exemple: myapp.localhost
+###RFC2606:
+Reserved names are returned as a TLD if a subdomain exists.
+
+Exemple: myapp.localhost => tld = localhost
+
 Reserved names are: test, example, invalid, localhost.
 
-#Exemples of usage:
+##Exemples of usage:
 
 Delete cache:
+
 $ ./tldExtractor -u
 
-Delete cache and enter interactive mode
+Delete cache and enter interactive mode:
+
 $ ./tldExtractor -u -i
 
-Get all informations about www.exemple.co.uk
+Get all informations about www.exemple.co.uk:
+
 $ ./tldExtractor -f -o -s -p -d -t -c http://www.exemple.co.uk/index.html
 
