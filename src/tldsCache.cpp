@@ -61,7 +61,7 @@ std::vector<std::string>& TldsCache::save_(std::vector<std::string>& tlds) const
 
 	// saving TLDs to file
 	for (std::string tld : tlds)
-        ofsTlds << tld << std::endl;
+		ofsTlds << tld << std::endl;
 
 	return tlds; // for programmatic logic
 }
