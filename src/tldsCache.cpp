@@ -86,8 +86,7 @@ std::vector<std::string>& TldsCache::clean_(std::stringstream readBuffer)
  * char *contents = data received from Curl
  * void *readBuffer = stringstream buffer, @see CURLOPT_WRITEDATA in Tlds::_downloadTlds()
  */
-static size_t CurlToStringstreamWriterCallback(char *contents, size_t size, size_t nmemb,
-											   void *readBuffer)
+static size_t CurlToStringstreamWriterCallback(char *contents, size_t size, size_t nmemb, void *readBuffer)
 {
 	size_t realsize = size * nmemb;
 	// TODO find a way to clean the TLDs list here
