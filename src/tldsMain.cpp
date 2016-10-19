@@ -15,45 +15,45 @@
 static void show_usage(std::string name)
 {
     std::cout //<< std::endl
-		<< "An application to extract suffixes and organisation from an URL." << std::endl
-		<< std::endl
-		<< "Usage :" << std::endl
-		<< "   " << name << " <options> [URL]" << std::endl
-		<< std::endl
-		<< "Options :" << std::endl
-		<< "   -h, --help         Show this help message." << std::endl
-		<< "   -u, --update       Force TLD cache to be updated." << std::endl
-		<< "   -i, --interactive  Interactive mode (usefull for debugging)." << std::endl
-		<< "   -f, --hostname     Return full hostname from [URL]." << std::endl
-		<< "   -o, --organisation Return organisation from [URL]." << std::endl
-		<< "   -s, --suffix       Return suffix(es) from [URL]." << std::endl
-		<< "   -p, --subdomain    Return subdomain from [URL]." << std::endl
-		<< "   -d, --domain       Return domain (organisation + suffix) from [URL]." << std::endl
-		<< "   -t, --tld          Return TLD from [URL]." << std::endl
-		<< "   -c, --country      Return country from [URL]." << std::endl
-		<< std::endl
-		<< "Note :" << std::endl
-		<< "   If multiple data are to be returned, a slash will be used to" << std::endl
-		<< "   separate them." << std::endl
-		<<     std::endl
-		<< "   Maximum depth of suffixes search was fixed to three." << std::endl
-		<< "   Exemple: *.act.edu.au" << std::endl
-		<<     std::endl
-		<< "   A cache file named \"" << TldsCache::TLDS_FILE << "\" and containing" << std::endl
-		<< "   suffixes is created on your local system." << std::endl
-		<<     std::endl
-		<< "   RFC2606: Reserved names are returned as a TLD if a subdomain exists." << std::endl
-		<< "   Exemple: myapp.localhost" << std::endl
-		<< "   Reserved names are: test, example, invalid, localhost." << std::endl
-		<< std::endl
-		<< "Exemples of usage:" << std::endl
-		<< "   Delete cache:" << std::endl
-		<< "    $ " << name << " -u" << std::endl
-		<< "   Delete cache and enter interactive mode" << std::endl
-		<< "    $ " << name << " -u -i" << std::endl
-		<< "   Get all informations about www.exemple.co.uk" << std::endl
-		<< "    $ " << name << " -f -o -s -p -d -t -c http://www.exemple.co.uk/index.html" << std::endl
-		<< std::endl;
+	<< "An application to extract suffixes and organisation from an URL." << std::endl
+	<< std::endl
+	<< "Usage :" << std::endl
+	<< "   " << name << " <options> [URL]" << std::endl
+	<< std::endl
+	<< "Options :" << std::endl
+	<< "   -h, --help         Show this help message." << std::endl
+	<< "   -u, --update       Force TLD cache to be updated." << std::endl
+	<< "   -i, --interactive  Interactive mode (usefull for debugging)." << std::endl
+	<< "   -f, --hostname     Return full hostname from [URL]." << std::endl
+	<< "   -o, --organisation Return organisation from [URL]." << std::endl
+	<< "   -s, --suffix       Return suffix(es) from [URL]." << std::endl
+	<< "   -p, --subdomain    Return subdomain from [URL]." << std::endl
+	<< "   -d, --domain       Return domain (organisation + suffix) from [URL]." << std::endl
+	<< "   -t, --tld          Return TLD from [URL]." << std::endl
+	<< "   -c, --country      Return country from [URL]." << std::endl
+	<< std::endl
+	<< "Note :" << std::endl
+	<< "   If multiple data are to be returned, a slash will be used to" << std::endl
+	<< "   separate them." << std::endl
+	<<     std::endl
+	<< "   Maximum depth of suffixes search was fixed to three." << std::endl
+	<< "   Exemple: *.act.edu.au" << std::endl
+	<<     std::endl
+	<< "   A cache file named \"" << TldsCache::TLDS_FILE << "\" and containing" << std::endl
+	<< "   suffixes is created on your local system." << std::endl
+	<<     std::endl
+	<< "   RFC2606: Reserved names are returned as a TLD if a subdomain exists." << std::endl
+	<< "   Exemple: myapp.localhost" << std::endl
+	<< "   Reserved names are: test, example, invalid, localhost." << std::endl
+	<< std::endl
+	<< "Exemples of usage:" << std::endl
+	<< "   Delete cache:" << std::endl
+	<< "    $ " << name << " -u" << std::endl
+	<< "   Delete cache and enter interactive mode" << std::endl
+	<< "    $ " << name << " -u -i" << std::endl
+	<< "   Get all informations about www.exemple.co.uk" << std::endl
+	<< "    $ " << name << " -f -o -s -p -d -t -c http://www.exemple.co.uk/index.html" << std::endl
+	<< std::endl;
 }
 
 // type of option selected (-f, -o, -s, -p, -d, -t, -c)

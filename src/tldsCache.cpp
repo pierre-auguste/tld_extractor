@@ -74,9 +74,9 @@ std::vector<std::string>& TldsCache::clean_(std::stringstream readBuffer)
 		countTL = count(line.begin(), line.end(), '.');
 
 		// filtering TLDS and filling the vector
-		if (not line.empty() // no empty line
-         && line.at(0) != '/' // no comment
-         && countTL < MAX_TLDS_DEPTH) // TLD depth
+		if ((not line.empty()) // no empty line
+		 && (line.at(0) != '/') // no comment
+		 && (countTL < MAX_TLDS_DEPTH)) // TLD depth
 			tlds.push_back(line);
 	}
 	return tlds; // for programmatic logic
