@@ -1,10 +1,10 @@
 /**
- * 	tldExtractor [-std=c++11 -lcurl]
+ *  tldExtractor [-std=c++11 -lcurl]
  *
- * 	An application to extract organisation and suffixes from an URL.
+ *  An application to extract organisation and suffixes from an URL.
  *
- * 	Read https://publicsuffix.org/learn/ if you want to improve your knowledge
- * 	about TLD and suffixes.
+ *  Read https://publicsuffix.org/learn/ if you want to improve your knowledge
+ *  about TLD and suffixes.
  */
 #include <iostream>
 #include <string>

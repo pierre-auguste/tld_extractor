@@ -1,5 +1,5 @@
 /**
- *	TLDs Extract [-std=c++11 -lcurl]
+ *  TLDs Extract [-std=c++11 -lcurl]
  *
  *  A singleton class used to extract TLD, organisation and suffix from a hostname
  *  using public suffixes data from Mozilla foundation.
