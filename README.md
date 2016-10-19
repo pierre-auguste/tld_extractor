@@ -17,8 +17,6 @@ A cache file named "suffixes.txt" and containing suffixes is created on your loc
 ###RFC2606:
 Reserved names are returned as a TLD if a subdomain exists.
 
-Exemple: myapp.localhost => tld = localhost
-
 Reserved names are: test, example, invalid, localhost.
 
 ##Exemples of usage:
