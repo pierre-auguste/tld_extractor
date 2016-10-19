@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 	}
 
 	bool deleteCache = false; // if true will delete cache
-	bool interactiveMode = false; // if true will turn application to interactiv mod
+	bool interactiveMode = false; // if true will turn application to interactive mode
 	std::vector<search> searches; // search type  (-f, -o, -s, ...)
 
 	for (int i = 1; i < argc; ++i)
