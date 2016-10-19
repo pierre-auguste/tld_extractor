@@ -1,6 +1,6 @@
-# tld_extractor
+# tld_extractor [-std=c++11 -lcurl]
 
-C++11 application to extract suffixes and organisation from an URL.
+C++ application to extract suffixes and organisation from an URL.
 Read https://publicsuffix.org/learn/ if you want to improve your knowledge about TLD and suffixes.
 
 Use curl library to download public suffix
