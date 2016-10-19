@@ -1,5 +1,6 @@
 #include "tldsExtract.h"
 
+
 TldsExtract *TldsExtract::singleton = nullptr; // singleton instance
 
 TldsExtract* TldsExtract::instance(bool verbose)
