@@ -15,13 +15,13 @@
 #define TLDSCACHE_H_INCLUDED
 
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
 #include <sstream> // istringstream
-#include <bits/stdc++.h> // count string
+#include <algorithm> // count string
 #include <curl/curl.h> // download public suffix
-#include <curl/easy.h> // download public suffix easy !
 
 
 class TldsCache

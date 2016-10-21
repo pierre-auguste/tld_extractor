@@ -25,15 +25,7 @@ bool TldsCache::deleteCache()
 {
 	// delete file content but keep the file
 	std::ofstream ofsTlds(TLDS_FILE, std::ofstream::out | std::ofstream::trunc);
-	if (ofsTlds)
-	{
-		ofsTlds.close();
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return static_cast<bool>(ofsTlds); // thanks Ksass`Peuk for the correction
 }
 
 std::vector<std::string>& TldsCache::load_()
@@ -116,7 +108,7 @@ std::stringstream TldsCache::download_() const
 	{
 		if (verbose)
 			std::cerr << curl_easy_strerror(response) << std::endl;
-		curl_easy_cleanup(curl);
+		curl_easy_cleanup(curl); // FIXME memory leak to avoid
 		throw 404; // Curl connexion failed
 	}
 	curl_easy_cleanup(curl);

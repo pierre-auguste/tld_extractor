@@ -7,9 +7,9 @@
 #ifndef TLDSEXTRACT_H_INCLUDED
 #define TLDSEXTRACT_H_INCLUDED
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 #include "tldsCache.h"
 
 
@@ -22,15 +22,15 @@ struct host
 	std::string organisation; // exemple
 	std::string suffix; // co.uk
 	std::string tld; // uk
-	std::string domain() // exemple.co.uk
+	std::string domain() const // exemple.co.uk
 	{
 		return ((not organisation.empty()) and (not suffix.empty()))? organisation + "." + suffix : "" ;
 	}
-	std::string country() // uk / ISO 3166.1 alpha-2, TLD country reserved = 2 digit (ex: uk, fr, us, cn, ...)
+	std::string country() const // uk / ISO 3166.1 alpha-2, TLD country reserved = 2 digit (ex: uk, fr, us, cn, ...)
 	{
 		return ((not suffix.empty()) and (tld.size() == 2))? tld : "" ;
 	}
-	std::string subdomain() // www
+	std::string subdomain() const // www
 	{
 		std::string dom = domain();
 		return ((not dom.empty()) and (dom != hostname)) ? hostname.substr(0, hostname.find("." + dom)) : "";
@@ -43,23 +43,25 @@ class TldsExtract // Singleton, usage: host h = TldsExtract::instance()->extract
 public :
 
 	// Return the singleton instance
-	static TldsExtract* instance(bool verbose=false);
+	static TldsExtract& instance(bool verbose=false);
 
 	// Return a host structure for a given hostname
-	host extract(std::string hostname) const;
+	host extract(std::string const& hostname);
 
 	// Delete the singleton instance
 	void close();
 
-
-	TldsExtract(const TldsExtract&) = delete; // forbid singleton copy (1/3)
-	TldsExtract& operator=(const TldsExtract&) = delete; // forbid singleton copy (2/3)
+	// return true if the TLD was found
+	bool findTld(std::string const& str) const;
 
 private :
 
 	TldsExtract(bool verbose); // private = singleton
+	TldsExtract(const TldsExtract&) = delete; // forbid singleton copy (1/3)
+	TldsExtract& operator=(const TldsExtract&) = delete; // forbid singleton copy (2/3)
 	~TldsExtract(); // forbid singleton copy (optionnal) (3/3)
-	static TldsExtract* singleton; // the singleton instance
+
+	std::vector<std::string> getHostPart_(std::string const& hostname);
 
 	void loadTlds_(); // load and set tlds
 	std::vector<std::string> tlds; // the TLDs list
