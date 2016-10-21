@@ -46,7 +46,7 @@ public :
 	static TldsExtract& instance(bool verbose=false);
 
 	// Return a host structure for a given hostname
-	host extract(std::string const& hostname);
+	host extract(std::string const& hostname) const;
 
 	// Delete the singleton instance
 	void close();
@@ -61,7 +61,8 @@ private :
 	TldsExtract& operator=(const TldsExtract&) = delete; // forbid singleton copy (2/3)
 	~TldsExtract(); // forbid singleton copy (optionnal) (3/3)
 
-	std::vector<std::string> getHostPart_(std::string const& hostname);
+	std::vector<std::string> getHostPart_(std::string const& hostname) const; // return hostname in array
+	int getHostDepth_(std::vector<std::string> const& hostpart) const; // calculate host depth
 
 	void loadTlds_(); // load and set tlds
 	std::vector<std::string> tlds; // the TLDs list
