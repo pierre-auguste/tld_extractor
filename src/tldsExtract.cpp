@@ -27,55 +27,39 @@ host TldsExtract::extract(std::string const& hostname) const
 	host host; // host data structure to return
 	host.hostname = hostname;
 
-	// for hostname exemple.act.edu.au, we need =>
-	// [0] => au, [1] => edu, [2] => act, [3] => exemple
+	// for hostname exemple.co.uk, we need =>
+	// [0] => uk, [1] => co, [2] => exemple
 	std::vector<std::string> hostpart = getHostPart_(hostname);
 
-	// string to be find for each suffixes level
-	std::string searchString;
-	switch (getHostDepth_(hostpart))
+	// strarting from the biggest TLD depth possible
+	for (unsigned int i = hostpart.size(); i > 0; i--)
 	{
-	case 3 :
-		searchString = hostpart[2] + '.' + hostpart[1] + '.' + hostpart[0]; // => act.edu.au
+		// string to be find for each suffixes depth
+		std::string searchString = hostpart[0]; // to avoid first '.' we set first part...
+		for (unsigned int j = 1; j < i; j++) // ... and start from the second vector entry (1 not 0)
+		{
+			searchString = hostpart[j] + '.' + searchString;
+		}
+
 		if (findTld(searchString))
 		{
-			host.organisation = hostpart[3]; // exemple
-			host.suffix = searchString; // act.edu.au
-			host.tld = hostpart[0]; // au
+			if (i < hostpart.size()) // that's not only a TLD
+				host.organisation = hostpart[i]; // exemple
+			host.suffix = searchString; // co.uk
+			host.tld = hostpart[0]; // uk
 			return host;
 		}
-		/* no break */
-	case 2 :
-		searchString = hostpart[1] + '.' + hostpart[0]; // => edu.au
-		if (findTld(searchString))
+
+	}
+	// RFC2606, reserved names for a local usage
+	// concidered as a TLD if a subdomain exists (myapp.localhost))
+	if (hostpart.size() > 1)
+	{
+		if (find(rfc2606.begin(), rfc2606.end(), hostpart[0]) != rfc2606.end())
 		{
-			host.organisation = hostpart[2]; // exemple
-			host.suffix = searchString; // edu.au
-			host.tld = hostpart[0]; // au
-			return host;
-		}
-		/* no break */
-	case 1 :
-		searchString = hostpart[0]; // => au
-		if (findTld(searchString))
-		{
-			host.organisation = hostpart[1]; // exemple
-			host.suffix = searchString; // au
-			host.tld = hostpart[0]; // au
-			return host;
-		}
-		/* no break */
-	default :
-		// RFC2606, reserved names for a local usage
-		// concidered as a TLD if a subdomain exists (myapp.localhost))
-		if (hostpart.size() > 1)
-		{
-			if (find(rfc2606.begin(), rfc2606.end(), hostpart[0]) != rfc2606.end())
-			{
-				host.organisation = hostpart[1]; // myapp
-				host.suffix = hostpart[0]; // localhost
-				host.tld = hostpart[0]; // localhost
-			}
+			host.organisation = hostpart[1]; // myapp
+			host.suffix = hostpart[0]; // localhost
+			host.tld = hostpart[0]; // localhost
 		}
 	}
 	return host;
@@ -90,8 +74,8 @@ std::vector<std::string> TldsExtract::getHostPart_(std::string const& hostname) 
 	size_t stringIndex = 0; // first string index
 	std::string::const_iterator it; // will iterate hostname
 
-	// for hostname exemple.act.edu.au
-	// [0] => exemple, [1] => act, [2] => edu, [3] => au
+	// for hostname exemple.co.uk
+	// [0] => exemple, [1] => co, [2] => uk
 	// FIXME use for-range if possible, problem: (it+1 != hostname.end())
 	for (it = hostname.begin(); it != hostname.end(); it++)
 	{
@@ -109,18 +93,10 @@ std::vector<std::string> TldsExtract::getHostPart_(std::string const& hostname) 
 		}
 	}
 	// reverse
-	// [0] => au, [1] => edu, [2] => act, [3] => exemple
+	// [0] => uk, [1] => co, [2] => exemple
 	reverse(hostpart.begin(), hostpart.end());
 
 	return hostpart;
-}
-
-int TldsExtract::getHostDepth_(std::vector<std::string> const& hostpart) const
-{
-	// host depth
-	size_t hostdepth = hostpart.size();
-	// calculating tld depth to use / -1 = domain should not be in search string
-	return (hostdepth > TldsCache::MAX_TLDS_DEPTH) ? TldsCache::MAX_TLDS_DEPTH : hostdepth -1;
 }
 
 bool TldsExtract::findTld(std::string const& str) const

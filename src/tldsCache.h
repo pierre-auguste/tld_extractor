@@ -34,8 +34,6 @@ public:
 	// static method to delete cache file content
 	static bool deleteCache();
 
-	// max depth to search in TLDs list
-	static constexpr const unsigned char MAX_TLDS_DEPTH = 3;
 	// cache file name
 	static constexpr const char* TLDS_FILE = "suffixes.txt";
 	// public suffixes url

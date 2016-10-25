@@ -9,9 +9,6 @@ This application use curl library to download public suffixes in a cache file.
 
 If multiple data are to be returned, a slash will be used to separate items.
 
-Maximum depth of suffixes search was fixed to three.
-Exemple: *.act.edu.au
-
 A cache file named "suffixes.txt" and containing suffixes is created on your local system.
 
 ###RFC2606:

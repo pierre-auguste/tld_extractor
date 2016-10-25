@@ -36,7 +36,7 @@ std::vector<std::string>& TldsCache::load_()
 	while (getline(ifsTlds, line))
 		tlds.push_back(line);
 
-	// we should have more than 8000 TLDs for a MAX_TLDS_DEPTH 3
+	// we should have more than 8000 TLDs
 	size_t minimum = 8000;
 	if (tlds.size() < minimum)
 		throw 444; // File is corrupt
@@ -60,17 +60,12 @@ std::vector<std::string>& TldsCache::save_(std::vector<std::string>& tlds) const
 
 std::vector<std::string>& TldsCache::clean_(std::stringstream readBuffer)
 {
-	char countTL; // counting '.' for MAX_TLDS_DEPTH
 	std::string line;
 	while (getline(readBuffer, line))
 	{
-		// calculating TLD depth
-		countTL = count(line.begin(), line.end(), '.');
-
 		// filtering TLDS and filling the vector
 		if ((not line.empty()) // no empty line
-		 && (line.at(0) != '/') // no comment
-		 && (countTL < MAX_TLDS_DEPTH)) // TLD depth
+		 && (line.at(0) != '/')) // no comment
 			tlds.push_back(line);
 	}
 	return tlds; // for programmatic logic
