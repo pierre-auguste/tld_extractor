@@ -27,18 +27,24 @@ host TldsExtract::extract(std::string const& hostname) const
 	host host; // host data structure to return
 	host.hostname = hostname;
 
+	// FQDN with optionnal final '.' must not change anything
+	// (exemple.com. = exemple.com). Here we delete the point.
+	if (host.hostname.back() == '.')
+		host.hostname.pop_back();
+
 	// for hostname exemple.co.uk, we need =>
 	// [0] => uk, [1] => co, [2] => exemple
-	std::vector<std::string> hostpart = getHostPart_(hostname);
+	std::vector<std::string> hostpart = getHostPart_(host.hostname);
 
-	// strarting from the biggest TLD depth possible
+	// SEARCH IN TLD LIST
+	// starting from the biggest TLD depth possible
 	for (unsigned int i = hostpart.size(); i > 0; i--)
 	{
 		// string to be find for each suffixes depth
 		std::string searchString = hostpart[0]; // to avoid first '.' we set first part...
-		for (unsigned int j = 1; j < i; j++) // ... and start from the second vector entry (1 not 0)
+		for (unsigned int j = 1; j < i; j++) // ... and start from the second vector row
 		{
-			searchString = hostpart[j] + '.' + searchString;
+			searchString = hostpart[j] + '.' + searchString; // continue building string
 		}
 
 		if (findTld(searchString))
@@ -72,24 +78,19 @@ std::vector<std::string> TldsExtract::getHostPart_(std::string const& hostname) 
 
 	hostpart.push_back(""); // create first string
 	size_t stringIndex = 0; // first string index
-	std::string::const_iterator it; // will iterate hostname
 
 	// for hostname exemple.co.uk
 	// [0] => exemple, [1] => co, [2] => uk
-	// FIXME use for-range if possible, problem: (it+1 != hostname.end())
-	for (it = hostname.begin(); it != hostname.end(); it++)
+	for (char str : hostname)
 	{
-		// FQDN with optionnal final '.' must not change anything
-		// (exemple.com. = exemple.com). Here we do not create a new
-		// row if it's a final point.
-		if ((*it == '.') and (it+1 != hostname.end()))
+		if ((str == '.'))
 		{
 			hostpart.push_back(""); // create next string
 			stringIndex++; // next string index
 		}
 		else
 		{
-			hostpart[stringIndex] += *it;
+			hostpart[stringIndex] += str;
 		}
 	}
 	// reverse
@@ -108,7 +109,7 @@ void  TldsExtract::loadTlds_()
 {
 	try
 	{
-		TldsCache(this->tlds, verbose);
+		TldsCache(this->tlds, verbose); // loading TLD from cache
 		if (verbose)
 			std::cout << tlds.size() << " suffixes were loaded (thanks publicsuffix.org)." << std::endl;
 	}
