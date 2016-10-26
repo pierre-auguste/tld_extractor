@@ -57,7 +57,7 @@ host TldsExtract::extract(std::string const& hostname) const
 		}
 
 	}
-	// RFC2606, reserved names for a local usage
+	// SEARCH IN RFC2606, reserved names for a local usage
 	// concidered as a TLD if a subdomain exists (myapp.localhost))
 	if (hostpart.size() > 1)
 	{
