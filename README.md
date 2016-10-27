@@ -36,3 +36,5 @@ Get all informations about www.exemple.co.uk:
 Many thanks to Ksass`Peuk and Markand who helped me to improve my poor C++ knowledge. You may follow our french conversation here :
 
 https://openclassrooms.com/forum/sujet/ma-premiere-appli-c-vos-avis
+
+Have fun !

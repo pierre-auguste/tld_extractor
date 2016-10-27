@@ -12,7 +12,6 @@
 #include "tldsExtract.h"
 #include "tldsCache.h"
 
-
 static void show_usage(std::string name)
 {
     std::cout //<< std::endl

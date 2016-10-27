@@ -12,7 +12,6 @@
 #include <vector>
 #include "tldsCache.h"
 
-
 /**
  * returned host with extracted TLDs informations
  */
