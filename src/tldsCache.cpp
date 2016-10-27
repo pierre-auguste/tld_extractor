@@ -25,15 +25,7 @@ bool TldsCache::deleteCache()
 {
 	// delete file content but keep the file
 	std::ofstream ofsTlds(TLDS_FILE, std::ofstream::out | std::ofstream::trunc);
-	if (ofsTlds)
-	{
-		ofsTlds.close();
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return static_cast<bool>(ofsTlds); // thanks Ksass`Peuk for the correction
 }
 
 std::vector<std::string>& TldsCache::load_()
@@ -44,7 +36,7 @@ std::vector<std::string>& TldsCache::load_()
 	while (getline(ifsTlds, line))
 		tlds.push_back(line);
 
-	// we should have more than 8000 TLDs for a MAX_TLDS_DEPTH 3
+	// we should have more than 8000 TLDs
 	size_t minimum = 8000;
 	if (tlds.size() < minimum)
 		throw 444; // File is corrupt
@@ -68,17 +60,12 @@ std::vector<std::string>& TldsCache::save_(std::vector<std::string>& tlds) const
 
 std::vector<std::string>& TldsCache::clean_(std::stringstream readBuffer)
 {
-	char countTL; // counting '.' for MAX_TLDS_DEPTH
 	std::string line;
 	while (getline(readBuffer, line))
 	{
-		// calculating TLD depth
-		countTL = count(line.begin(), line.end(), '.');
-
 		// filtering TLDS and filling the vector
 		if ((not line.empty()) // no empty line
-		 && (line.at(0) != '/') // no comment
-		 && (countTL < MAX_TLDS_DEPTH)) // TLD depth
+		 && (line.at(0) != '/')) // no comment
 			tlds.push_back(line);
 	}
 	return tlds; // for programmatic logic
@@ -91,8 +78,6 @@ std::vector<std::string>& TldsCache::clean_(std::stringstream readBuffer)
 static size_t CurlToStringstreamWriterCallback(char *contents, size_t size, size_t nmemb, void *readBuffer)
 {
 	size_t realsize = size * nmemb;
-	// TODO find a way to clean the TLDs list here
-	// ==> problem: we have to wait for a "\n" to get a full TLD (because of tcp buffer size)
 	((std::stringstream*)readBuffer)->write((char *)contents , realsize);
 	return realsize;
 }
@@ -114,9 +99,9 @@ std::stringstream TldsCache::download_() const
 	CURLcode response = curl_easy_perform(curl);
 	if(response != CURLE_OK)
 	{
+		curl_easy_cleanup(curl);
 		if (verbose)
 			std::cerr << curl_easy_strerror(response) << std::endl;
-		curl_easy_cleanup(curl);
 		throw 404; // Curl connexion failed
 	}
 	curl_easy_cleanup(curl);

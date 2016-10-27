@@ -9,9 +9,6 @@ This application use curl library to download public suffixes in a cache file.
 
 If multiple data are to be returned, a slash will be used to separate items.
 
-Maximum depth of suffixes search was fixed to three.
-Exemple: *.act.edu.au
-
 A cache file named "suffixes.txt" and containing suffixes is created on your local system.
 
 ###RFC2606:
@@ -35,3 +32,7 @@ Get all informations about www.exemple.co.uk:
 
  Result : www.exemple.co.uk/exemple/co.uk/www/exemple.co.uk/uk/uk
 
+##Thanks
+Many thanks to Ksass`Peuk and Markand who helped me to improve my poor C++ knowledge. You may follow our french conversation here :
+
+https://openclassrooms.com/forum/sujet/ma-premiere-appli-c-vos-avis

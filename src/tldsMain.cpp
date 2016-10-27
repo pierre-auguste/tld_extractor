@@ -61,11 +61,11 @@ static void show_usage(std::string name)
 enum search {hostname, organisation, suffix, subdomain, domain, tld, country};
 
 // extract hostname from an URL
-std::string getHostnameFromUrl(std::string& url);
+std::string getHostnameFromUrl(std::string const& url);
 // this enter interactive mode
 bool interactive();
 // for non-interactive mode
-bool extract(std::vector<search> searches, std::string url);
+bool extract(std::vector<search> const& searches, std::string const& url);
 
 
 int main(int argc, char *argv[])
@@ -164,35 +164,35 @@ int main(int argc, char *argv[])
 	return EXIT_FAILURE;
 }
 
-std::string getHostnameFromUrl(std::string& url)
+std::string getHostnameFromUrl(std::string const& url)
 {
+	std::string hostname = url;
 	size_t pos;
 
 	// deleting URL scheme
 	// we delete "://" and everything before
-	pos = url.find("://");
+	pos = hostname.find("://");
 	if (pos != std::string::npos)
-		url.erase(0, pos + 3);
+		hostname.erase(0, pos + 3);
 
 	// deleting URL port
 	// we delete first ":" and everything after
-	pos = url.find(":");
+	pos = hostname.find(":");
 	if (pos != std::string::npos)
-		url.erase(pos);
+		hostname.erase(pos);
 
 	// deleting URL path and query
 	// as scheme is deleted, we now delete first "/" and everything after
-	pos = url.find("/");
+	pos = hostname.find("/");
 	if (pos != std::string::npos)
-		url.erase(pos);
+		hostname.erase(pos);
 
-	return url;
+	return hostname;
 }
 
-bool extract(std::vector<search> searches, std::string url)
+bool extract(std::vector<search> const& searches, std::string const& url)
 {
-	host h = TldsExtract::instance()->extract(getHostnameFromUrl(url));
-	TldsExtract::instance()->close(); // clean close of TLD services
+	host h = TldsExtract::instance().extract(getHostnameFromUrl(url));
 
 	bool first = true;
 	for (search type: searches)
@@ -242,13 +242,11 @@ bool interactive()
 
 		if (url == "bye")
 		{
-			if (not host.hostname.empty()) // a tld instance was previously launched
-				TldsExtract::instance(true)->close(); // clean close of TLD services
 			std::cout << "Bye bye, have fun !" << std::endl;
 			return EXIT_SUCCESS;
 		}
 
-		host = TldsExtract::instance(true)->extract(getHostnameFromUrl(url));
+		host = TldsExtract::instance(true).extract(getHostnameFromUrl(url));
 
 		std::cout << "----------------------------------------------------" << std::endl;
 		std::cout << "Hostname:     " << host.hostname << std::endl;

@@ -1,20 +1,11 @@
 #include "tldsExtract.h"
 
 
-TldsExtract *TldsExtract::singleton = nullptr; // singleton instance
-
-TldsExtract* TldsExtract::instance(bool verbose)
+TldsExtract& TldsExtract::instance(bool verbose)
 {
-	// single instance (! one per thread)
-	if (!singleton)
-		singleton = ::new TldsExtract(verbose);
-	return singleton;
-}
-
-void TldsExtract::close() // delete the instance
-{
-	delete singleton;
-	singleton = 0;
+	// singleton instance to return
+	static TldsExtract instance(verbose);
+	return instance;
 }
 
 TldsExtract::TldsExtract(bool verbose) : verbose(verbose)
@@ -31,77 +22,42 @@ TldsExtract::~TldsExtract()
 		std::cout << "Closing Tlds service." << std::endl;
 }
 
-host TldsExtract::extract(std::string hostname) const
+host TldsExtract::extract(std::string const& hostname) const
 {
 	host host; // host data structure to return
 	host.hostname = hostname;
 
-	// will be used to split hostname in hostpart vector
-	std::vector<std::string> hostpart;
-	hostpart.push_back(""); // create first string
-	size_t stringIndex = 0; // first string index
-	std::string::iterator it; //
+	// FQDN with optionnal final '.' must not change anything
+	// (exemple.com. = exemple.com). Here we delete the point.
+	if (host.hostname.back() == '.')
+		host.hostname.pop_back();
 
-	// for hostname exemple.act.edu.au, we need =>
-	// [0] => exemple, [1] => act, [2] => edu, [3] => au
-	for (it = hostname.begin(); it != hostname.end(); it++)
-	{
-		// FQDN with optionnal final '.' must not change anything
-		// (exemple.com. = exemple.com). Here we do not create a new
-		// row if it's a final point.
-		if ((*it == '.') and (it+1 != hostname.end()))
-		{
-			hostpart.push_back(""); // create next string
-			stringIndex++; // next string index
-		}
-		else
-		{
-			hostpart[stringIndex] += *it;
-		}
-	}
-	// reverse
-	// [0] => au, [1] => edu, [2] => act, [3] => exemple
-	reverse(hostpart.begin(), hostpart.end());
+	// for hostname exemple.co.uk, we need =>
+	// [0] => uk, [1] => co, [2] => exemple
+	std::vector<std::string> hostpart = getHostPart_(host.hostname);
 
-	// string to be find for each suffixes level
-	std::string searchString;
-	// host depth
-	size_t hostdepth = hostpart.size();
-	// calculating tld depth to use / -1 = domain should not be in search string
-	int depth = (hostdepth > TldsCache::MAX_TLDS_DEPTH) ? TldsCache::MAX_TLDS_DEPTH : hostdepth -1;
-	switch (depth)
+	// SEARCH IN TLD LIST
+	// starting from the biggest TLD depth possible
+	for (unsigned int i = hostpart.size(); i > 0; i--)
 	{
-	case 3 :
-		searchString = hostpart[2] + '.' + hostpart[1] + '.' + hostpart[0]; // => act.edu.au
-		if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
+		// string to be find for each suffixes depth
+		std::string searchString = hostpart[0]; // to avoid first '.' we set first part...
+		for (unsigned int j = 1; j < i; j++) // ... and start from the second vector row
 		{
-			host.organisation = hostpart[3]; // exemple
-			host.suffix = searchString; // act.edu.au
-			host.tld = hostpart[0]; // au
+			searchString = hostpart[j] + '.' + searchString; // continue building string
+		}
+
+		if (findTld(searchString))
+		{
+			if (i < hostpart.size()) // that's not only a TLD
+				host.organisation = hostpart[i]; // exemple
+			host.suffix = searchString; // co.uk
+			host.tld = hostpart[0]; // uk
 			return host;
 		}
-		/* no break */
-	case 2 :
-		searchString = hostpart[1] + '.' + hostpart[0]; // => edu.au
-		if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
-		{
-			host.organisation = hostpart[2]; // exemple
-			host.suffix = searchString; // edu.au
-			host.tld = hostpart[0]; // au
-			return host;
-		}
-		/* no break */
-	case 1 :
-		searchString = hostpart[0]; // => au
-		if (find(tlds.begin(), tlds.end(), searchString) != tlds.end())
-		{
-			host.organisation = hostpart[1]; // exemple
-			host.suffix = searchString; // au
-			host.tld = hostpart[0]; // au
-			return host;
-		}
+
 	}
-	// RFC2606, reserved names for a local usage
+	// SEARCH IN RFC2606, reserved names for a local usage
 	// concidered as a TLD if a subdomain exists (myapp.localhost))
 	if (hostpart.size() > 1)
 	{
@@ -110,19 +66,50 @@ host TldsExtract::extract(std::string hostname) const
 			host.organisation = hostpart[1]; // myapp
 			host.suffix = hostpart[0]; // localhost
 			host.tld = hostpart[0]; // localhost
-			return host;
 		}
 	}
-
-	// nothing found, only the received host.hostname is to return
 	return host;
+}
+
+std::vector<std::string> TldsExtract::getHostPart_(std::string const& hostname) const
+{
+	// will be used to split hostname in hostpart vector
+	std::vector<std::string> hostpart;
+
+	hostpart.push_back(""); // create first string
+	size_t stringIndex = 0; // first string index
+
+	// for hostname exemple.co.uk
+	// [0] => exemple, [1] => co, [2] => uk
+	for (char str : hostname)
+	{
+		if ((str == '.'))
+		{
+			hostpart.push_back(""); // create next string
+			stringIndex++; // next string index
+		}
+		else
+		{
+			hostpart[stringIndex] += str;
+		}
+	}
+	// reverse
+	// [0] => uk, [1] => co, [2] => exemple
+	reverse(hostpart.begin(), hostpart.end());
+
+	return hostpart;
+}
+
+bool TldsExtract::findTld(std::string const& str) const
+{
+	return find(tlds.begin(), tlds.end(), str) != tlds.end();
 }
 
 void  TldsExtract::loadTlds_()
 {
 	try
 	{
-		TldsCache(this->tlds, verbose);
+		TldsCache(this->tlds, verbose); // loading TLD from cache
 		if (verbose)
 			std::cout << tlds.size() << " suffixes were loaded (thanks publicsuffix.org)." << std::endl;
 	}
@@ -132,6 +119,7 @@ void  TldsExtract::loadTlds_()
 		{
 			switch (e)
 			{
+			// FIXME use standart exception
 			case 644:
 				std::cerr << "TLDs cache file is not writable." << std::endl;
 				break;
