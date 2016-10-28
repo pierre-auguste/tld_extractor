@@ -7,7 +7,6 @@
 #ifndef TLDSEXTRACT_H_INCLUDED
 #define TLDSEXTRACT_H_INCLUDED
 
-
 #include <iostream>
 #include <string>
 #include <vector>

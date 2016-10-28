@@ -1,6 +1,5 @@
 #include "tldsCache.h"
 
-
 TldsCache::TldsCache(std::vector<std::string>& tlds, bool verbose) :
 					 tlds(tlds), // the vector to fill
 					 verbose(verbose)

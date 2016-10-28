@@ -3,17 +3,10 @@
  *
  *  Return cached TLDs list from publicsuffix.org
  *  Curl library is used to download public suffixes
- *  ans create cache.
- *
- *  Thrown exceptions list (int) :
- *   444. Tlds file is empty or corrupt
- *   644. Tlds file is not writable
- *   400. Curl init failed.
- *   404. TLDS were not downloaded (check connexion).
+ *  and create cache.
  */
 #ifndef TLDSCACHE_H_INCLUDED
 #define TLDSCACHE_H_INCLUDED
-
 
 #include <iostream>
 #include <string>
