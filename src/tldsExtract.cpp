@@ -1,5 +1,6 @@
 #include "tldsExtract.h"
 
+
 TldsExtract& TldsExtract::instance(bool verbose)
 {
 	// singleton instance to return
