@@ -113,26 +113,12 @@ void  TldsExtract::loadTlds_()
 		if (verbose)
 			std::cout << tlds.size() << " suffixes were loaded (thanks publicsuffix.org)." << std::endl;
 	}
-	catch (int e)
+	catch (cacheException &e)
 	{
 		if (verbose)
 		{
-			switch (e)
-			{
-			// FIXME use standart exception
-			case 644:
-				std::cerr << "TLDs cache file is not writable." << std::endl;
-				break;
-			case 444:
-				std::cerr << "Suffixes were not loaded, cache file may be corrupt." << std::endl;
-				break;
-			case 400:
-				std::cerr << "Curl initialisation failed." << std::endl;
-				break;
-			case 404:
-				std::cerr << "Curl connexion to publicsuffix.org failed." << std::endl;
-				break;
-			}
+			std::cerr << "TLDs cache error: " << e.what() << std::endl;
+			std::cerr << "Programm will use RFC2606 to continue..." << std::endl;
 		}
 	// we continue using RFC2606 (localhost tests)
 	}

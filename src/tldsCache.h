@@ -22,6 +22,20 @@
 #include <sstream> // istringstream
 #include <algorithm> // count string
 #include <curl/curl.h> // download public suffix
+#include <exception>
+
+
+class cacheException : public std::exception
+{
+public:
+	cacheException(std::string msg) : msg(msg) {}
+	const char* what() const throw()
+	{
+		return msg.c_str();
+	}
+private:
+	std::string msg;
+};
 
 
 class TldsCache

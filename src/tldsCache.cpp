@@ -39,7 +39,7 @@ std::vector<std::string>& TldsCache::load_()
 	// we should have more than 8000 TLDs
 	size_t minimum = 8000;
 	if (tlds.size() < minimum)
-		throw 444; // File is corrupt
+		throw cacheException("cache file is corrupt. Delete it.");
 
 	return tlds; // for programmatic logic
 }
@@ -49,7 +49,7 @@ std::vector<std::string>& TldsCache::save_(std::vector<std::string>& tlds) const
 	// testing file
 	std::ofstream ofsTlds(TLDS_FILE);
 	if (not ofsTlds)
-		throw 644; // File is not writable
+		throw cacheException("File is not writable.");
 
 	// saving TLDs to file
 	for (std::string tld : tlds)
@@ -88,7 +88,7 @@ std::stringstream TldsCache::download_() const
 
 	CURL *curl = curl_easy_init(); // see Curl documentation
 	if (not curl)
-		throw 400; // Curl init failed
+		throw cacheException("Curl init failed.");
 
 	//curl_easy_setopt(curl, CURLOPT_VERBOSE, 1); // Use it to debug
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, CurlToStringstreamWriterCallback);
@@ -102,7 +102,7 @@ std::stringstream TldsCache::download_() const
 		curl_easy_cleanup(curl);
 		if (verbose)
 			std::cerr << curl_easy_strerror(response) << std::endl;
-		throw 404; // Curl connexion failed
+		throw cacheException("Curl connexion failed.");
 	}
 	curl_easy_cleanup(curl);
 	return readBuffer;
